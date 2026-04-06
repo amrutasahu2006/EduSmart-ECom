@@ -43,7 +43,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
               aria-label="Toggle dark mode"
               title={darkMode ? 'Light mode' : 'Dark mode'}
             />
-            <NavLink to="/security" className="btn btn-primary btn-sm" style={{ textDecoration: 'none' }}>
+            <NavLink to="/signin" className="btn btn-primary btn-sm" style={{ textDecoration: 'none' }}>
               Sign In
             </NavLink>
             <button

@@ -8,6 +8,8 @@ import Revenue from './pages/Revenue'
 import Marketing from './pages/Marketing'
 import CRM from './pages/CRM'
 import Security from './pages/Security'
+import Checkout from './pages/Checkout'
+import SignIn from './pages/SignIn'
 import CourseDetails from './pages/CourseDetails'
 import LearningEnvironment from './pages/LearningEnvironment'
 import CertificateView from './pages/CertificateView'
@@ -35,6 +37,8 @@ export default function App() {
           <Route path="/marketing" element={<Marketing />} />
           <Route path="/crm" element={<CRM />} />
           <Route path="/security" element={<Security />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/signin" element={<SignIn />} />
           <Route path="/course/:slug" element={<CourseDetails />} />
           <Route path="/learn/:slug" element={<LearningEnvironment />} />
           <Route path="/certificate/:slug" element={<CertificateView />} />

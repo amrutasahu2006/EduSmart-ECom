@@ -9,6 +9,15 @@ const securityFeatures = [
   { icon: '🕵️', bg: 'icon-teal', title: 'Fraud & Anomaly Detection', desc: 'Real-time ML-powered anomaly detection flags suspicious login patterns, mass account creation, and payment fraud. 99.97% fraud detection accuracy.' },
 ]
 
+const paymentSecurityFeatures = [
+  { icon: '🔵', bg: 'icon-teal', title: 'UPI PIN-Based Authentication', desc: 'UPI requires a unique 4-digit PIN for every transaction. Device is linked to user account via AADHAAR, ensuring only authorized devices process payments. RBI-mandated for all UPI transactions in India.' },
+  { icon: '🔐', bg: 'icon-navy', title: 'Public Key Infrastructure (PKI)', desc: 'All payment data encrypted using PKI encryption standards. Data is encrypted during transmission and at rest. Prevents man-in-the-middle attacks and data interception.' },
+  { icon: '💳', bg: 'icon-orange', title: 'Tokenisation', desc: 'Card/account details replaced with secure tokens. No sensitive financial data stored in EduSmart databases. Tokens cannot be reverse-engineered to reveal original card numbers.' },
+  { icon: '📲', bg: 'icon-purple', title: 'Device Binding & Verification', desc: 'User device linked to account with biometric/PIN verification. Multiple device registration requires OTP confirmation. Prevents unauthorized access from new devices.' },
+  { icon: '✅', bg: 'icon-teal', title: 'Transaction Alerts', desc: 'Real-time SMS & email notifications for every transaction. Learners can dispute transactions within 24 hours. Zero-liability policy protects against fraud.' },
+  { icon: '🏦', bg: 'icon-navy', title: 'Data Localisation (RBI Compliant)', desc: 'All payment data stored in India per RBI guidelines. No cross-border data transfer. Ensures compliance with Digital Personal Data Protection (DPDP) Act 2023.' },
+]
+
 export default function Security() {
   const [form, setForm] = useState({ username: '', password: '', otp: '' })
   const [errors, setErrors] = useState({})
@@ -167,6 +176,8 @@ export default function Security() {
                 <span className="trust-badge">✅ PCI DSS</span>
                 <span className="trust-badge">🛡 GDPR</span>
                 <span className="trust-badge">🇮🇳 DPDP</span>
+                <span className="trust-badge">🏦 RBI Compliant</span>
+                <span className="trust-badge">💳 Tokenization</span>
               </div>
             </div>
 
@@ -188,6 +199,57 @@ export default function Security() {
         </div>
       </section>
 
+      {/* Payment Security Section */}
+      <section className="section" style={{ background: 'var(--bg-alt)', paddingTop: 64, paddingBottom: 64 }}>
+        <div className="container">
+          <div style={{ marginBottom: 48, textAlign: 'center' }}>
+            <div className="section-label">💳 Payment Security</div>
+            <h2 className="section-title">Secure e-Payment Solutions</h2>
+            <p className="section-sub" style={{ maxWidth: 700, margin: '12px auto 0', textAlign: 'center' }}>RBI-compliant UPI, card, and bank transfer payments with enterprise-grade protection</p>
+          </div>
+
+          <div className="revenue-stream">
+            {paymentSecurityFeatures.map(f => (
+              <div key={f.title} className="stream-card">
+                <div className={`stream-icon ${f.bg}`}>{f.icon}</div>
+                <div>
+                  <div className="stream-title">{f.title}</div>
+                  <div className="stream-desc">{f.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* RBI Compliance Section */}
+      <section className="section" style={{ paddingTop: 60, paddingBottom: 60 }}>
+        <div className="container">
+          <div style={{ marginBottom: 40 }}>
+            <div className="section-label">🏦 RBI Compliance</div>
+            <h2 className="section-title">Reserve Bank of India Standards</h2>
+          </div>
+          <div className="grid-2">
+            <div className="viva-card">
+              <div className="viva-q">Payment Modes</div>
+              <div className="viva-a">EduSmart supports UPI (primary mode with instant 24×7 transfers), Debit/Credit Cards (secured with EMV chip & PIN), and Net Banking (NEFT/IMPS available). All modes comply with RBI Two-Factor Authentication (2FA) mandates. UPI transactions use device binding + AADHAAR verification for maximum security.</div>
+            </div>
+            <div className="viva-card">
+              <div className="viva-q">Security Standards</div>
+              <div className="viva-a">Tokenisation replaces card details with secure tokens per RBI guidelines. All transactions encrypted with PKI (Public Key Infrastructure). Data stored within India per data localisation rules. Real-time transaction alerts (SMS/Email) enable fraud detection. Zero-liability policy protects learners against unauthorized transactions.</div>
+            </div>
+            <div className="viva-card">
+              <div className="viva-q">Transaction Flow</div>
+              <div className="viva-a">Every payment requires Two-Factor Authentication (OTP or UPI PIN). Payment gateway (Razorpay/Stripe) processes securely. Learner receives real-time SMS/Email confirmation. Transaction reversible within 24 hours for dispute cases. Monthly statements available in account dashboard.</div>
+            </div>
+            <div className="viva-card">
+              <div className="viva-q">Data Protection</div>
+              <div className="viva-a">Payment data never stored in plaintext. Tokenised data inaccessible to EduSmart staff. Regular third-party audits (PCI DSS Level 1 quarterly). DPDP Act 2023 compliance with annual certifications. Right to erasure: payment history deletable after dispute resolution period.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Viva */}
       <section className="section viva-section" style={{ paddingTop: 60, paddingBottom: 60 }}>
         <div className="container">
@@ -197,6 +259,10 @@ export default function Security() {
             <div className="viva-card">
               <div className="viva-q">How is user authentication secured?</div>
               <div className="viva-a">EduSmart uses JWT (JSON Web Tokens) for stateless authentication with 15-minute access tokens and 30-day refresh tokens. Passwords are hashed with bcrypt (cost factor 12). The login form demonstrates client-side validation (React useState) and optional TOTP-based 2FA. In production, server-side validation, rate limiting (5 attempts/hour), and CAPTCHA are enforced.</div>
+            </div>
+            <div className="viva-card">
+              <div className="viva-q">How are payments secured?</div>
+              <div className="viva-a">All payments use RBI Two-Factor Authentication (2FA). UPI transactions require UPI PIN + Device Binding. Cards use PKI encryption + Tokenisation (no raw details stored). Payment gateways (Razorpay/Stripe) are PCI DSS Level 1 certified. Real-time transaction alerts via SMS/Email. Learners have zero liability for unauthorized transactions and 24-hour dispute windows per RBI guidelines.</div>
             </div>
             <div className="viva-card">
               <div className="viva-q">What compliance standards does EduSmart follow?</div>

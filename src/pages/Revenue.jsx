@@ -5,20 +5,21 @@ const plans = [
     name: 'Basic', price: 0, desc: 'Get started with free learning',
     icon: '🌱', iconBg: 'icon-teal', badge: null,
     features: ['5 free courses/month', 'Community access', 'Mobile app access', 'Course previews', 'Basic certificates'],
-    btn: 'btn-outline', btnLabel: 'Get Started Free',
+    btn: 'btn-outline', btnLabel: 'Get Started Free', ctaTo: '/signin',
   },
   {
     name: 'Premium', price: 999, desc: 'Unlimited learning & career growth',
     icon: '🚀', iconBg: 'icon-orange', badge: 'Most Popular',
     features: ['Unlimited courses', 'HD video downloads', 'Official certificates', '1-on-1 mentoring (2h/mo)', 'Priority support', 'Interview prep kit', 'LinkedIn integration'],
     btn: 'btn-primary', btnLabel: 'Start Premium →',
+    ctaTo: '/checkout',
     featured: true,
   },
   {
     name: 'Teams', price: 2499, desc: 'For organizations & enterprises',
     icon: '🏢', iconBg: 'icon-navy', badge: null,
     features: ['Everything in Premium', 'Team dashboard', 'Analytics & reporting', 'Custom learning paths', 'Dedicated account manager', 'SSO integration', 'API access'],
-    btn: 'btn-teal', btnLabel: 'Contact Sales',
+    btn: 'btn-teal', btnLabel: 'Start Teams Plan', ctaTo: '/checkout',
   },
 ]
 
@@ -34,6 +35,12 @@ const revenueBreakdown = [
   { label: 'Course Sales', pct: 22, color: 'var(--teal)' },
   { label: 'Certifications', pct: 13, color: '#8b5cf6' },
   { label: 'B2B / Ads', pct: 10, color: '#f59e0b' },
+]
+
+const paymentModes = [
+  { icon: '🔵', name: 'UPI', desc: 'Unified Payments Interface', details: 'Instant transfers, 24×7 available. No bank details needed. Most popular in India.' },
+  { icon: '💳', name: 'Debit/Credit Card', desc: 'Visa, Mastercard, RuPay', details: 'Secured with EMV chip & PIN. Recurring billing for subscriptions.' },
+  { icon: '🏦', name: 'Net Banking', desc: 'NEFT / IMPS', details: 'Direct bank transfers. Available across all major Indian banks.' },
 ]
 
 export default function Revenue() {
@@ -69,7 +76,11 @@ export default function Revenue() {
                 <ul className="plan-features">
                   {p.features.map(f => <li key={f}>{f}</li>)}
                 </ul>
-                <Link to="/security" className={`btn ${p.btn}`} style={{ textDecoration: 'none', justifyContent: 'center', width: '100%' }}>
+                <Link
+                  to={p.ctaTo}
+                  className={`btn ${p.btn}`}
+                  style={{ textDecoration: 'none', justifyContent: 'center', width: '100%' }}
+                >
                   {p.btnLabel}
                 </Link>
               </div>
@@ -138,6 +149,43 @@ export default function Revenue() {
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Payment Modes Section */}
+      <section className="section" style={{ background: 'var(--bg-alt)', paddingTop: 64, paddingBottom: 64 }}>
+        <div className="container">
+          <div style={{ marginBottom: 48, textAlign: 'center' }}>
+            <div className="section-label">💳 Payment Methods</div>
+            <h2 className="section-title">Multiple ways to pay</h2>
+            <p className="section-sub" style={{ maxWidth: 600, margin: '12px auto' }}>RBI-compliant payment options: UPI (instant, 24×7), Debit/Credit Cards (secure), and Net Banking (NEFT/IMPS)</p>
+          </div>
+
+          <div className="revenue-stream">
+            {paymentModes.map(pm => (
+              <div key={pm.name} className="stream-card" style={{ cursor: 'pointer' }}>
+                <div className={`stream-icon icon-teal`}>{pm.icon}</div>
+                <div>
+                  <div className="stream-title">{pm.name}</div>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--text-light)', marginBottom: 8 }}>{pm.desc}</div>
+                  <div className="stream-desc">{pm.details}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ marginTop: 48, textAlign: 'center' }}>
+            <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)', marginBottom: 24 }}>
+              ✅ All payment modes are PCI DSS Level 1 compliant and RBI-approved
+            </div>
+            <Link
+              className="btn btn-primary"
+              to="/checkout"
+              style={{ textDecoration: 'none' }}
+            >
+              🔒 Open Secure Checkout
+            </Link>
           </div>
         </div>
       </section>
