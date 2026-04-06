@@ -159,6 +159,23 @@ export default function Revenue() {
           </div>
         </div>
       </section>
+
+      <section className="section" style={{ paddingTop: 36, paddingBottom: 60 }}>
+        <div className="container">
+          <div className="section-label">📚 Data Sources</div>
+          <h2 className="section-title" style={{ marginBottom: 24 }}>Assumptions behind revenue projections</h2>
+          <div className="grid-2">
+            <div className="viva-card">
+              <div className="viva-q">Are ARR and subscriber values production data?</div>
+              <div className="viva-a">No. These are hardcoded forecast values for the assignment. They are internally consistent with the displayed pricing tiers and revenue split percentages.</div>
+            </div>
+            <div className="viva-card">
+              <div className="viva-q">How were streams modeled?</div>
+              <div className="viva-a">Modeled using public EdTech and SaaS references: subscription-heavy businesses, certification upsell patterns, and enterprise contract mix from annual reports and investor decks (Coursera, Udemy, and SaaS benchmark datasets).</div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   )
 }

@@ -205,6 +205,23 @@ export default function Security() {
           </div>
         </div>
       </section>
+
+      <section className="section" style={{ paddingTop: 36, paddingBottom: 60 }}>
+        <div className="container">
+          <div className="section-label">📚 Data Sources</div>
+          <h2 className="section-title" style={{ marginBottom: 24 }}>Assumptions behind security claims</h2>
+          <div className="grid-2">
+            <div className="viva-card">
+              <div className="viva-q">Is this a production security implementation?</div>
+              <div className="viva-a">No. This page is an explanatory, hardcoded simulation for assignment purpose. The login form and 2FA flow illustrate UX and validation logic, not a live backend security stack.</div>
+            </div>
+            <div className="viva-card">
+              <div className="viva-q">What factual standards were used?</div>
+              <div className="viva-a">Claims are based on widely accepted security baselines and public documentation for TLS 1.3, AES-256, OWASP authentication guidance, PCI DSS Level 1 practices, GDPR, and India DPDP compliance requirements.</div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   )
 }

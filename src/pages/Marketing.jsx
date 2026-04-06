@@ -177,6 +177,23 @@ export default function Marketing() {
           </div>
         </div>
       </section>
+
+      <section className="section" style={{ paddingTop: 36, paddingBottom: 60 }}>
+        <div className="container">
+          <div className="section-label">📚 Data Sources</div>
+          <h2 className="section-title" style={{ marginBottom: 24 }}>Assumptions behind marketing numbers</h2>
+          <div className="grid-2">
+            <div className="viva-card">
+              <div className="viva-q">Are these campaign metrics real-time?</div>
+              <div className="viva-a">No. This dashboard is hardcoded for academic demonstration. KPI values are synthetic but calibrated to realistic EdTech ranges for CAC, conversion, and retention.</div>
+            </div>
+            <div className="viva-card">
+              <div className="viva-q">What factual benchmarks were used?</div>
+              <div className="viva-a">Assumptions are benchmarked using public references such as Google Ads benchmark reports, HubSpot email engagement studies, Meta ad trend summaries, and Similarweb traffic mix patterns (2024-2025).</div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   )
 }

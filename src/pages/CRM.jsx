@@ -32,6 +32,21 @@ const navItems = [
   { icon: '⚙️', label: 'Settings' },
 ]
 
+const complaintBreakdown = [
+  { label: 'Payment Issues', count: 700, pct: 70, color: 'var(--accent)' },
+  { label: 'Video Buffering', count: 140, pct: 14, color: 'var(--teal)' },
+  { label: 'Login & OTP', count: 90, pct: 9, color: '#8b5cf6' },
+  { label: 'Certificate Download', count: 70, pct: 7, color: '#f59e0b' },
+]
+
+const triageFlow = [
+  { step: 'Ingest', desc: '1,000 feedback tickets/week from chat, email, and in-app forms.' },
+  { step: 'Classify', desc: 'NLP tags by topic, severity, and affected user segment.' },
+  { step: 'Prioritize', desc: 'Auto-flags P1 if issue volume > 30% in 24h window.' },
+  { step: 'Act', desc: 'Incident routed to engineering + CX playbook triggered.' },
+  { step: 'Verify', desc: 'Post-release complaints monitored for 7 days.' },
+]
+
 const crmStrategies = [
   { icon: '🎯', bg: 'icon-orange', title: 'Personalization Engine', desc: 'ML-powered recommendation system suggests courses based on learning history, career goals, and behavior patterns. 78% of enrollments come from personalized recommendations.' },
   { icon: '📈', bg: 'icon-teal', title: 'Progress Tracking', desc: 'Granular lesson-level analytics track completion rates, quiz scores, and time spent. Instructors and learners both get real-time dashboards with actionable insights.' },
@@ -41,13 +56,14 @@ const crmStrategies = [
 
 export default function CRM() {
   const navigate = useNavigate()
+  const [activeTab, setActiveTab] = useState('learner')
   const [activeNav, setActiveNav] = useState('Dashboard')
   const [toasts, setToasts] = useState([])
   const [settings, setSettings] = useState([
     { id: 'progress', label: 'Weekly Progress Reports', desc: 'Receive a weekly email summarizing your learning hours.', active: true },
     { id: 'sms', label: 'SMS Notifications', desc: 'Get text alerts for upcoming live sessions and deadlines.', active: false },
     { id: 'public', label: 'Public Profile Visibility', desc: 'Allow recruiters to view your certificates and progress.', active: true },
-    { id: 'tfa', label: 'Two-Factor Authentication (2FA)', desc: 'Secure your account with an extra verification step.', active: false }
+    { id: 'tfa', label: 'Two-Factor Authentication (2FA)', desc: 'Secure your account with an extra verification step.', active: false },
   ])
 
   const toggleSetting = (id) => {
@@ -66,253 +82,299 @@ export default function CRM() {
   return (
     <>
       <Toast toasts={toasts} removeToast={removeToast} />
+
       <div className="page-header">
         <div className="container">
           <div className="section-label">👥 Customer Success</div>
           <h1>CRM Strategy</h1>
           <p>How EduSmart builds lasting relationships with 500,000+ learners</p>
+          <div style={{ marginTop: 24, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <button className={activeTab === 'learner' ? 'btn btn-primary' : 'btn btn-outline'} onClick={() => setActiveTab('learner')}>
+              Learner Dashboard
+            </button>
+            <button className={activeTab === 'complaints' ? 'btn btn-primary' : 'btn btn-outline'} onClick={() => setActiveTab('complaints')}>
+              Complaint Analysis
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Dashboard UI */}
-      <section className="section">
-        <div className="container">
-          <div style={{ marginBottom: 36 }}>
-            <div className="section-label">💻 Live Dashboard</div>
-            <h2 className="section-title">Learner Dashboard</h2>
-          </div>
+      {activeTab === 'learner' && (
+        <section className="section">
+          <div className="container">
+            <div style={{ marginBottom: 36 }}>
+              <div className="section-label">💻 Live Dashboard</div>
+              <h2 className="section-title">Learner Dashboard</h2>
+            </div>
 
-          <div className="crm-layout">
-            {/* Sidebar */}
-            <div className="crm-sidebar">
-              <div className="crm-profile">
-                <div className="profile-avatar">RV</div>
-                <div className="profile-name">Rahul Verma</div>
-                <div className="profile-email">rahul.verma@gmail.com</div>
-                <div className="profile-badge">⭐ Premium Member</div>
-                <div className="crm-stat-row">
-                  <div className="crm-stat">
-                    <div className="crm-stat-num">4</div>
-                    <div className="crm-stat-label">Courses</div>
+            <div className="crm-layout">
+              <div className="crm-sidebar">
+                <div className="crm-profile">
+                  <div className="profile-avatar">RV</div>
+                  <div className="profile-name">Rahul Verma</div>
+                  <div className="profile-email">rahul.verma@gmail.com</div>
+                  <div className="profile-badge">⭐ Premium Member</div>
+                  <div className="crm-stat-row">
+                    <div className="crm-stat"><div className="crm-stat-num">4</div><div className="crm-stat-label">Courses</div></div>
+                    <div className="crm-stat"><div className="crm-stat-num">2</div><div className="crm-stat-label">Certs</div></div>
+                    <div className="crm-stat"><div className="crm-stat-num">🔥21</div><div className="crm-stat-label">Streak</div></div>
+                    <div className="crm-stat"><div className="crm-stat-num">142h</div><div className="crm-stat-label">Learned</div></div>
                   </div>
-                  <div className="crm-stat">
-                    <div className="crm-stat-num">2</div>
-                    <div className="crm-stat-label">Certs</div>
-                  </div>
-                  <div className="crm-stat">
-                    <div className="crm-stat-num">🔥21</div>
-                    <div className="crm-stat-label">Streak</div>
-                  </div>
-                  <div className="crm-stat">
-                    <div className="crm-stat-num">142h</div>
-                    <div className="crm-stat-label">Learned</div>
-                  </div>
+                </div>
+
+                <div className="crm-nav">
+                  {navItems.map(n => (
+                    <button
+                      key={n.label}
+                      className={`crm-nav-item${activeNav === n.label ? ' active' : ''}`}
+                      onClick={() => {
+                        setActiveNav(n.label)
+                        const el = document.getElementById(n.label)
+                        if (el) {
+                          const y = el.getBoundingClientRect().top + window.pageYOffset - 100
+                          window.scrollTo({ top: y, behavior: 'smooth' })
+                        }
+                      }}
+                    >
+                      {n.icon} {n.label}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              <div className="crm-nav">
-                {navItems.map(n => (
-                  <button
-                    key={n.label}
-                    className={`crm-nav-item${activeNav === n.label ? ' active' : ''}`}
-                    onClick={() => {
-                      setActiveNav(n.label)
-                      const el = document.getElementById(n.label)
-                      if (el) {
-                        const yOffset = -100; // Account for any fixed header
-                        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                        window.scrollTo({top: y, behavior: 'smooth'});
-                      }
-                    }}
-                  >
-                    {n.icon} {n.label}
-                  </button>
+              <div className="crm-main">
+                <div id="Dashboard" className="crm-card">
+                  <div className="crm-card-header">
+                    <div className="crm-card-title">📚 Course Progress</div>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--accent)', fontFamily: 'var(--font-display)', fontWeight: 700, cursor: 'pointer' }} onClick={() => { setActiveNav('My Courses'); document.getElementById('My Courses')?.scrollIntoView({ behavior: 'smooth' }) }}>
+                      View All →
+                    </span>
+                  </div>
+                  {progressData.slice(0, 2).map(p => (
+                    <div key={p.title} className="progress-item">
+                      <div className="progress-item-header">
+                        <div className="progress-item-title">{p.title}</div>
+                        <div className="progress-pct">{p.pct}%</div>
+                      </div>
+                      <div className="progress-bar-lg"><div className="progress-fill-lg" style={{ width: `${p.pct}%` }} /></div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="crm-card">
+                  <div className="crm-card-header">
+                    <div className="crm-card-title">🎯 Recommended for You</div>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-light)', fontFamily: 'var(--font-display)' }}>AI-powered</span>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    {recommended.slice(0, 2).map(r => (
+                      <div key={r.title} style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '12px 0', borderBottom: '1px solid var(--border)' }}>
+                        <div style={{ width: 44, height: 44, background: 'var(--accent-soft)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', flexShrink: 0 }}>{r.emoji}</div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.9rem', color: 'var(--text)' }}>{r.title}</div>
+                          <div style={{ fontSize: '0.78rem', color: 'var(--text-light)' }}>{r.reason}</div>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6 }}>
+                          <span style={{ background: 'var(--teal-soft)', color: 'var(--teal)', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.72rem', padding: '3px 10px', borderRadius: 999 }}>{r.match}</span>
+                          <button className="btn btn-ghost btn-sm" onClick={() => showToast(`🎉 Enrolled in "${r.title}"!`)}>Enroll</button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div id="My Courses" className="crm-card">
+                  <div className="crm-card-header"><div className="crm-card-title">📚 My Courses</div></div>
+                  {progressData.map(p => (
+                    <div key={p.title} className="progress-item" style={{ paddingBottom: 16, borderBottom: '1px solid var(--border)' }}>
+                      <div className="progress-item-header">
+                        <div className="progress-item-title">{p.title}</div>
+                        <div className="progress-pct">{p.pct}%</div>
+                      </div>
+                      <div className="progress-bar-lg"><div className="progress-fill-lg" style={{ width: `${p.pct}%` }} /></div>
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12 }}>
+                        <button className="btn btn-outline btn-sm" onClick={() => {
+                          const slug = p.title.toLowerCase().replace(/\s+/g, '-')
+                          navigate(`/learn/${encodeURIComponent(slug)}`)
+                        }}>
+                          Continue Learning
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div id="Certificates" className="crm-card">
+                  <div className="crm-card-header">
+                    <div className="crm-card-title">🏆 Verified Certificates</div>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--accent)', fontFamily: 'var(--font-display)', fontWeight: 700, cursor: 'pointer' }}>Download All ↓</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                    {[
+                      { id: '1', title: 'Python for Beginners to Pro', date: 'March 15, 2026', idNum: 'CERT-8921X' },
+                      { id: '2', title: 'Web Development Bootcamp 2025', date: 'January 10, 2026', idNum: 'CERT-4109Y' },
+                    ].map(cert => (
+                      <div key={cert.id} style={{ background: 'linear-gradient(135deg, #ffffff, #fcfbf8)', border: '1px solid var(--border)', borderLeft: '4px solid var(--teal)', borderRadius: 12, padding: 20, position: 'relative', boxShadow: 'var(--shadow-sm)' }}>
+                        <div style={{ fontSize: '2.5rem', marginBottom: 12 }}>🎓</div>
+                        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1rem', marginBottom: 4, color: 'var(--text)' }}>{cert.title}</div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 16 }}>Issued: {cert.date} • ID: {cert.idNum}</div>
+                        <button className="btn btn-outline btn-sm" style={{ width: '100%', justifyContent: 'center' }} onClick={() => window.open(`/certificate/${encodeURIComponent(cert.title.toLowerCase().replace(/\s+/g, '-'))}`, '_blank')}>
+                          View Certificate
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div id="Notifications" className="crm-card">
+                  <div className="crm-card-header">
+                    <div className="crm-card-title">🔔 Notifications</div>
+                    <span style={{ background: 'var(--accent)', color: '#fff', fontSize: '0.72rem', fontFamily: 'var(--font-display)', fontWeight: 700, padding: '2px 8px', borderRadius: 999 }}>5</span>
+                  </div>
+                  <div>
+                    {notifications.map((n, i) => (
+                      <div key={i} className="notification-item">
+                        <div className="notif-dot" style={{ background: n.color }} />
+                        <div>
+                          <div className="notif-text">{n.text}</div>
+                          <div className="notif-time">{n.time}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div id="Support" className="crm-card" style={{ textAlign: 'center', padding: '60px 20px' }}>
+                  <div style={{ fontSize: '3.5rem', margin: '0 auto 16px' }}>💬</div>
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, marginBottom: 8 }}>Need Help?</h3>
+                  <p style={{ color: 'var(--text-muted)', marginBottom: 24 }}>Our support team is available 24/7 to assist you.</p>
+                  <p style={{ fontWeight: '500' }}>Click the chat bubble in the bottom right corner to start a conversation.</p>
+                </div>
+
+                <div id="Settings" className="crm-card">
+                  <div className="crm-card-header"><div className="crm-card-title">⚙️ Account Settings</div></div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 24, paddingBottom: 8 }}>
+                    {settings.map(setting => (
+                      <div key={setting.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 24 }}>
+                        <div>
+                          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.9rem', color: 'var(--text)' }}>{setting.label}</div>
+                          <div style={{ fontSize: '0.8rem', color: 'var(--text-light)' }}>{setting.desc}</div>
+                        </div>
+                        <div className={`dark-toggle${setting.active ? ' on' : ''}`} style={{ flexShrink: 0, cursor: 'pointer' }} onClick={() => toggleSetting(setting.id)} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {activeTab === 'complaints' && (
+        <>
+          <section className="section" style={{ paddingTop: 64, paddingBottom: 64 }}>
+            <div className="container">
+              <div style={{ marginBottom: 32 }}>
+                <div className="section-label">🛠 Feedback Intelligence</div>
+                <h2 className="section-title">Automated complaints analysis</h2>
+                <p className="section-sub">Hardcoded simulation of how feedback, complaints, and reviews are mapped into prioritized product fixes.</p>
+              </div>
+
+              <div className="grid-4" style={{ marginBottom: 24 }}>
+                {[[ '1,000', 'Weekly Reports' ], [ '700', 'Payment Complaints Flagged' ], [ 'P1', 'Top Severity Detected' ], [ '42%', 'Drop After Fix Rollout' ]].map(([num, label]) => (
+                  <div key={label} className="card" style={{ padding: 20 }}>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.6rem', color: 'var(--accent)' }}>{num}</div>
+                    <div style={{ color: 'var(--text-muted)', fontSize: '0.82rem' }}>{label}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+                <div className="crm-card">
+                  <div className="crm-card-header"><div className="crm-card-title">📉 Complaint Category Mapping</div></div>
+                  {complaintBreakdown.map(row => (
+                    <div key={row.label} className="chart-row" style={{ marginBottom: 12 }}>
+                      <div className="chart-label">{row.label}</div>
+                      <div className="chart-bar-wrap"><div className="chart-bar-fill" style={{ width: `${row.pct}%`, background: row.color }} /></div>
+                      <div className="chart-pct">{row.count}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="crm-card">
+                  <div className="crm-card-header"><div className="crm-card-title">⚙️ Automated Triage Workflow</div></div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    {triageFlow.map((item, idx) => (
+                      <div key={item.step} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', borderBottom: idx < triageFlow.length - 1 ? '1px solid var(--border)' : 'none', paddingBottom: 12 }}>
+                        <div style={{ width: 26, height: 26, borderRadius: 8, background: 'var(--accent-soft)', color: 'var(--accent)', fontFamily: 'var(--font-display)', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{idx + 1}</div>
+                        <div>
+                          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.88rem' }}>{item.step}</div>
+                          <div style={{ color: 'var(--text-light)', fontSize: '0.8rem' }}>{item.desc}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="section viva-section" style={{ paddingTop: 60, paddingBottom: 60 }}>
+            <div className="container">
+              <div className="section-label">📚 Data Sources</div>
+              <h2 className="section-title" style={{ marginBottom: 32 }}>Assumptions used in CRM dashboard</h2>
+              <div className="grid-2">
+                <div className="viva-card">
+                  <div className="viva-q">What is real vs hardcoded?</div>
+                  <div className="viva-a">All learner records, complaints, and analytics are hardcoded for assignment demonstration. Values are modeled to reflect realistic ranges from public SaaS and EdTech case studies.</div>
+                </div>
+                <div className="viva-card">
+                  <div className="viva-q">What references were used?</div>
+                  <div className="viva-a">Benchmarks are aligned with publicly discussed ranges from HubSpot support benchmarks, Mixpanel engagement patterns, Stripe payment failure studies, and India EdTech retention trend reports (2024-2025).</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="section" style={{ background: 'var(--bg-alt)', paddingTop: 64, paddingBottom: 64 }}>
+            <div className="container">
+              <div style={{ marginBottom: 40 }}>
+                <div className="section-label">🧠 CRM Pillars</div>
+                <h2 className="section-title">How we retain learners</h2>
+              </div>
+              <div className="grid-2">
+                {crmStrategies.map(s => (
+                  <div key={s.title} className="stream-card">
+                    <div className={`stream-icon ${s.bg}`}>{s.icon}</div>
+                    <div>
+                      <div className="stream-title">{s.title}</div>
+                      <div className="stream-desc">{s.desc}</div>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
+          </section>
 
-            {/* Main Content */}
-            <div className="crm-main">
-              {/* Progress (Dashboard) */}
-              <div id="Dashboard" className="crm-card">
-                <div className="crm-card-header">
-                  <div className="crm-card-title">📚 Course Progress</div>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--accent)', fontFamily: 'var(--font-display)', fontWeight: 700, cursor: 'pointer' }} onClick={() => { setActiveNav('My Courses'); document.getElementById('My Courses')?.scrollIntoView({behavior: 'smooth'})}}>View All →</span>
+          <section className="section viva-section" style={{ paddingTop: 60, paddingBottom: 60 }}>
+            <div className="container">
+              <div className="section-label">📝 Viva Support</div>
+              <h2 className="section-title" style={{ marginBottom: 32 }}>CRM Strategy Explained</h2>
+              <div className="grid-2">
+                <div className="viva-card">
+                  <div className="viva-q">What CRM tools does EduSmart use?</div>
+                  <div className="viva-a">EduSmart uses a custom-built CRM integrated with Mixpanel for behavioral analytics, Intercom for support chat, and Mailchimp for email automation. The learner dashboard tracks engagement metrics in real time. Key CRM objectives: increase LTV, reduce churn, and automate repetitive touchpoints.</div>
                 </div>
-                {progressData.slice(0, 2).map(p => (
-                  <div key={p.title} className="progress-item">
-                    <div className="progress-item-header">
-                      <div className="progress-item-title">{p.title}</div>
-                      <div className="progress-pct">{p.pct}%</div>
-                    </div>
-                    <div className="progress-bar-lg">
-                      <div className="progress-fill-lg" style={{ width: `${p.pct}%` }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Recommended */}
-              <div className="crm-card">
-                <div className="crm-card-header">
-                  <div className="crm-card-title">🎯 Recommended for You</div>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-light)', fontFamily: 'var(--font-display)' }}>AI-powered</span>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                  {recommended.slice(0, 2).map(r => (
-                    <div key={r.title} style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '12px 0', borderBottom: '1px solid var(--border)' }}>
-                      <div style={{ width: 44, height: 44, background: 'var(--accent-soft)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', flexShrink: 0 }}>{r.emoji}</div>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.9rem', color: 'var(--text)' }}>{r.title}</div>
-                        <div style={{ fontSize: '0.78rem', color: 'var(--text-light)' }}>{r.reason}</div>
-                      </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6 }}>
-                        <span style={{ background: 'var(--teal-soft)', color: 'var(--teal)', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.72rem', padding: '3px 10px', borderRadius: 999 }}>{r.match}</span>
-                        <button className="btn btn-ghost btn-sm" onClick={() => showToast(`🎉 Enrolled in "${r.title}"!`)}>Enroll</button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* My Courses */}
-              <div id="My Courses" className="crm-card">
-                <div className="crm-card-header">
-                  <div className="crm-card-title">📚 My Courses</div>
-                </div>
-                {progressData.map(p => (
-                  <div key={p.title} className="progress-item" style={{ paddingBottom: 16, borderBottom: '1px solid var(--border)' }}>
-                    <div className="progress-item-header">
-                      <div className="progress-item-title">{p.title}</div>
-                      <div className="progress-pct">{p.pct}%</div>
-                    </div>
-                    <div className="progress-bar-lg">
-                      <div className="progress-fill-lg" style={{ width: `${p.pct}%` }} />
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12 }}>
-                      <button className="btn btn-outline btn-sm" onClick={() => {
-                        const slug = p.title.toLowerCase().replace(/\s+/g, '-');
-                        navigate(`/learn/${encodeURIComponent(slug)}`);
-                      }}>Continue Learning</button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Certificates */}
-              <div id="Certificates" className="crm-card">
-                <div className="crm-card-header">
-                  <div className="crm-card-title">🏆 Verified Certificates</div>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--accent)', fontFamily: 'var(--font-display)', fontWeight: 700, cursor: 'pointer' }}>Download All ↓</span>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                  {[
-                    { id: '1', title: 'Python for Beginners to Pro', date: 'March 15, 2026', idNum: 'CERT-8921X' },
-                    { id: '2', title: 'Web Development Bootcamp 2025', date: 'January 10, 2026', idNum: 'CERT-4109Y' }
-                  ].map(cert => (
-                    <div key={cert.id} style={{ 
-                      background: 'linear-gradient(135deg, #ffffff, #fcfbf8)', 
-                      border: '1px solid var(--border)', 
-                      borderLeft: '4px solid var(--teal)', 
-                      borderRadius: 12, padding: 20, position: 'relative',
-                      boxShadow: 'var(--shadow-sm)'
-                    }}>
-                      <div style={{ fontSize: '2.5rem', marginBottom: 12 }}>🎓</div>
-                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1rem', marginBottom: 4, color: 'var(--text)' }}>{cert.title}</div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 16 }}>Issued: {cert.date} • ID: {cert.idNum}</div>
-                      <button className="btn btn-outline btn-sm" style={{ width: '100%', justifyContent: 'center' }} onClick={() => window.open(`/certificate/${encodeURIComponent(cert.title.toLowerCase().replace(/\s+/g, '-'))}`, '_blank')}>View Certificate</button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Notifications */}
-              <div id="Notifications" className="crm-card">
-                <div className="crm-card-header">
-                  <div className="crm-card-title">🔔 Notifications</div>
-                  <span style={{ background: 'var(--accent)', color: '#fff', fontSize: '0.72rem', fontFamily: 'var(--font-display)', fontWeight: 700, padding: '2px 8px', borderRadius: 999 }}>5</span>
-                </div>
-                <div>
-                  {notifications.map((n, i) => (
-                    <div key={i} className="notification-item">
-                      <div className="notif-dot" style={{ background: n.color }} />
-                      <div>
-                        <div className="notif-text">{n.text}</div>
-                        <div className="notif-time">{n.time}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Support */}
-              <div id="Support" className="crm-card" style={{ textAlign: 'center', padding: '60px 20px' }}>
-                <div style={{ fontSize: '3.5rem', margin: '0 auto 16px' }}>💬</div>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, marginBottom: 8 }}>Need Help?</h3>
-                <p style={{ color: 'var(--text-muted)', marginBottom: 24 }}>Our support team is available 24/7 to assist you.</p>
-                <p style={{ fontWeight: '500' }}>Click the chat bubble in the bottom right corner to start a conversation.</p>
-              </div>
-
-              {/* Settings */}
-              <div id="Settings" className="crm-card">
-                <div className="crm-card-header">
-                  <div className="crm-card-title">⚙️ Account Settings</div>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 24, paddingBottom: 8 }}>
-                  {settings.map(setting => (
-                    <div key={setting.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 24 }}>
-                      <div>
-                        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.9rem', color: 'var(--text)' }}>{setting.label}</div>
-                        <div style={{ fontSize: '0.8rem', color: 'var(--text-light)' }}>{setting.desc}</div>
-                      </div>
-                      <div className={`dark-toggle${setting.active ? ' on' : ''}`} style={{ flexShrink: 0, cursor: 'pointer' }} onClick={() => toggleSetting(setting.id)} />
-                    </div>
-                  ))}
+                <div className="viva-card">
+                  <div className="viva-q">How does EduSmart reduce churn?</div>
+                  <div className="viva-a">Churn reduction uses three mechanisms: (1) Streak gamification — daily reminders and rewards for consistent learners reduce 30-day churn by 38%. (2) Progress persistence — learners who are 50%+ through a course have 3x lower churn. (3) Win-back campaigns — automated emails with discounts target users who haven't logged in for 14+ days.</div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CRM Strategies */}
-      <section className="section" style={{ background: 'var(--bg-alt)', paddingTop: 64, paddingBottom: 64 }}>
-        <div className="container">
-          <div style={{ marginBottom: 40 }}>
-            <div className="section-label">🧠 CRM Pillars</div>
-            <h2 className="section-title">How we retain learners</h2>
-          </div>
-          <div className="grid-2">
-            {crmStrategies.map(s => (
-              <div key={s.title} className="stream-card">
-                <div className={`stream-icon ${s.bg}`}>{s.icon}</div>
-                <div>
-                  <div className="stream-title">{s.title}</div>
-                  <div className="stream-desc">{s.desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Viva */}
-      <section className="section viva-section" style={{ paddingTop: 60, paddingBottom: 60 }}>
-        <div className="container">
-          <div className="section-label">📝 Viva Support</div>
-          <h2 className="section-title" style={{ marginBottom: 32 }}>CRM Strategy Explained</h2>
-          <div className="grid-2">
-            <div className="viva-card">
-              <div className="viva-q">What CRM tools does EduSmart use?</div>
-              <div className="viva-a">EduSmart uses a custom-built CRM integrated with Mixpanel for behavioral analytics, Intercom for support chat, and Mailchimp for email automation. The learner dashboard tracks engagement metrics in real time. Key CRM objectives: increase LTV, reduce churn, and automate repetitive touchpoints.</div>
-            </div>
-            <div className="viva-card">
-              <div className="viva-q">How does EduSmart reduce churn?</div>
-              <div className="viva-a">Churn reduction uses three mechanisms: (1) Streak gamification — daily reminders and rewards for consistent learners reduce 30-day churn by 38%. (2) Progress persistence — learners who are 50%+ through a course have 3x lower churn. (3) Win-back campaigns — automated emails with discounts target users who haven't logged in for 14+ days.</div>
-            </div>
-          </div>
-        </div>
-      </section>
+          </section>
+        </>
+      )}
     </>
   )
 }
