@@ -1,4 +1,7 @@
+import { useNavigate } from 'react-router-dom'
+
 export default function CourseCard({ course, onEnroll, showToast }) {
+  const navigate = useNavigate()
   const gradients = [
     'linear-gradient(135deg, #fde8df, #fcc9b3)',
     'linear-gradient(135deg, #d4f0ef, #a5d8d7)',
@@ -21,7 +24,11 @@ export default function CourseCard({ course, onEnroll, showToast }) {
   return (
     <div className="course-card">
       <div className="course-thumb" style={{ background: bg }}>
-        <span>{course.emoji}</span>
+        {course.image ? (
+          <img src={course.image} alt={course.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        ) : (
+          <span>{course.emoji}</span>
+        )}
         {course.badge && <span className="course-badge">{course.badge}</span>}
       </div>
       <div className="course-body">
@@ -48,9 +55,9 @@ export default function CourseCard({ course, onEnroll, showToast }) {
         <button
           className="btn btn-primary"
           style={{ width: '100%', marginTop: 16, justifyContent: 'center' }}
-          onClick={handleEnroll}
+          onClick={() => navigate(`/course/${encodeURIComponent(course.title.toLowerCase().replace(/\s+/g, '-'))}`)}
         >
-          Enroll Now →
+          View Details →
         </button>
       </div>
     </div>

@@ -5,22 +5,28 @@ import Toast from '../components/Toast'
 
 const featuredCourses = [
   {
-    id: 0, emoji: '🤖', badge: 'Bestseller', title: 'AI & Machine Learning Masterclass',
+    id: 0, image: '/images/ai_course.png', emoji: '🤖', badge: 'Bestseller', title: 'AI & Machine Learning Masterclass',
     description: 'From Python basics to deep learning. Build real-world ML models with PyTorch and TensorFlow.',
     lessons: 48, duration: '22h', level: 'Intermediate', rating: '4.9', students: '12k',
     price: 89, originalPrice: 199,
   },
   {
-    id: 1, emoji: '⚛️', badge: 'New', title: 'React 18 + Next.js Full Stack',
+    id: 1, image: '/images/react_course.png', emoji: '⚛️', badge: 'New', title: 'React 18 + Next.js Full Stack',
     description: 'Master modern React, hooks, server components, and deploy full-stack apps with Next.js 14.',
     lessons: 62, duration: '30h', level: 'Beginner', rating: '4.8', students: '8.5k',
     price: 79, originalPrice: 179,
   },
   {
-    id: 2, emoji: '📊', badge: 'Hot', title: 'Data Science & Analytics',
+    id: 2, image: '/images/data_course.png', emoji: '📊', badge: 'Hot', title: 'Data Science & Analytics',
     description: 'Learn Pandas, NumPy, SQL, and Tableau. Turn raw data into actionable business insights.',
     lessons: 40, duration: '18h', level: 'All Levels', rating: '4.7', students: '15k',
     price: 69, originalPrice: 149,
+  },
+  {
+    id: 3, image: '/images/design_course.png', emoji: '🎨', badge: 'Trending', title: 'UI/UX Design with Figma',
+    description: 'Design stunning interfaces from wireframes to prototypes. Master Figma, design systems, and user research.',
+    lessons: 35, duration: '15h', level: 'Beginner', rating: '4.9', students: '6.2k',
+    price: 59, originalPrice: 129,
   },
 ]
 
@@ -183,7 +189,7 @@ export default function Home() {
             </div>
             <Link to="/courses" className="btn btn-outline" style={{ textDecoration: 'none' }}>View All Courses →</Link>
           </div>
-          <div className="grid-3">
+          <div className="grid-4">
             {featuredCourses.map(c => (
               <CourseCard key={c.id} course={c} showToast={showToast} />
             ))}
@@ -198,7 +204,7 @@ export default function Home() {
             <div className="section-label">💬 Success Stories</div>
             <h2 className="section-title">What our learners say</h2>
           </div>
-          <div className="grid-3">
+          <div className="grid-pricing">
             {testimonials.map((t, i) => (
               <div key={i} className="testimonial-card">
                 <p className="testimonial-quote">{t.text}</p>

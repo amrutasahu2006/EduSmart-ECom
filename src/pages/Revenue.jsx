@@ -56,7 +56,7 @@ export default function Revenue() {
             <p className="section-sub" style={{ margin: '0 auto 12px' }}>No hidden fees. Cancel anytime. All plans include a 7-day free trial.</p>
           </div>
 
-          <div className="grid-3">
+          <div className="grid-pricing">
             {plans.map(p => (
               <div key={p.name} className={`plan-card${p.featured ? ' featured' : ''}`}>
                 {p.badge && <div className="plan-badge">{p.badge}</div>}
